@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MerchantCategoriesApi.Data; // Ensure this is included
+using MerchantCategoriesApi.Data; 
 
 namespace MerchantCategoriesApi.Controllers;
 
