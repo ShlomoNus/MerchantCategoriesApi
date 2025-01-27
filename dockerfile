@@ -5,6 +5,9 @@ WORKDIR /src
 # Copy all files into the container
 COPY . ./
 
+# Install Entity Framework Core
+RUN dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.0
+
 # Publish the application in Release mode to the /app folder
 RUN dotnet publish -c Release -o /app
 
