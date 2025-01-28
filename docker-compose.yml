@@ -27,4 +27,4 @@ services:
       ConnectionStrings__DefaultConnection: "Server=db;Database=MerchantCategoriesApiDb;User Id=sa;Password=Your_password123!;TrustServerCertificate=True;"
 
 volumes:
- sqlserverdata:
+  sqlserverdata:

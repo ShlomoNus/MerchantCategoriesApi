@@ -2,11 +2,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy all files into the container
-COPY . ./
+# Copy the project files
+COPY *.csproj ./
+RUN dotnet restore
 
-# Install Entity Framework Core
-RUN dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.0
+# Copy the rest of the application files
+COPY . ./
 
 # Publish the application in Release mode to the /app folder
 RUN dotnet publish -c Release -o /app
@@ -21,5 +22,5 @@ COPY --from=build /app ./
 # Expose port 80 inside the container
 EXPOSE 80
 
-# Specify the entrypoint
+# Run the application
 ENTRYPOINT ["dotnet", "MerchantCategoriesApi.dll"]
