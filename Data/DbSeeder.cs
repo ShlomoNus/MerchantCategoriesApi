@@ -6,10 +6,8 @@ public static class DbSeeder
 {
     public static void Seed(ApplicationDbContext context)
     {
-        // Ensure the database is created (if migrations aren't used directly)
         context.Database.EnsureCreated();
 
-        // Seed categories and products if none exist
         if (!context.Categories.Any())
         {
             var categories = new List<Category>

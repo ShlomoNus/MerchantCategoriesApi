@@ -11,8 +11,21 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection"),
         sqlOptions => sqlOptions.EnableRetryOnFailure()
     ));
+var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowConfiguredOrigins", policy =>
+    {
+        policy.WithOrigins(allowedOrigins)
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 
 var app = builder.Build();
+
 
 using (var scope = app.Services.CreateScope())
 {
@@ -25,6 +38,8 @@ using (var scope = app.Services.CreateScope())
 
     DbSeeder.Seed(context);
 }
+
+app.UseCors("AllowConfiguredOrigins");
 
 app.MapControllers();
 
