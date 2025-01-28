@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MerchantCategoriesApi.Data; 
+using MerchantCategoriesApi.Data;
 
 namespace MerchantCategoriesApi.Controllers;
 
@@ -18,7 +18,17 @@ public class CategoriesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetCategories()
     {
-        var categories = await _context.Categories.Include(c => c.Products).ToListAsync();
+        var categories = await _context.Categories
+            .Include(c => c.Products)
+            .Select(c => new
+            {
+                name = c.Name,
+                products = c.Products.Select(p => new { name = p.Name })
+            })
+            .ToListAsync();
+
         return Ok(categories);
     }
+
 }
+
